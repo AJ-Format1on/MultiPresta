@@ -1,0 +1,465 @@
+version: "3.8"
+
+x-db-env: &db_env
+  DB_SERVER: db-common
+  DB_USER: root
+  DB_PASSWD: root_pass
+
+x-ps-install-common: &ps_install_common
+  image: prestashop/prestashop:latest
+  depends_on:
+    db-common:
+      condition: service_healthy
+    db-init:
+      condition: service_completed_successfully
+  environment:
+    <<: *db_env
+    PS_INSTALL_AUTO: 0
+    PS_DEV_MODE: 0
+    PS_ALL_LANGUAGES: 0
+    PS_LANGUAGE: en
+    PS_COUNTRY: FR
+  restart: "no"
+
+x-ps-web-common: &ps_web_common
+  image: prestashop/prestashop:latest
+  depends_on:
+    db-common:
+      condition: service_healthy
+  environment:
+    <<: *db_env
+    PS_INSTALL_AUTO: 0
+    PS_DEV_MODE: 0
+  restart: unless-stopped
+
+services:
+  db-common:
+    image: mariadb:10.11
+    container_name: multipresta-db-common
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: root_pass
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+    restart: always
+
+  # Create all databases once
+  db-init:
+    image: mariadb:10.11
+    depends_on:
+      db-common:
+        condition: service_healthy
+    environment:
+      MYSQL_ROOT_PASSWORD: root_pass
+    entrypoint: ["/bin/sh", "-lc"]
+    command: >
+      "mariadb -h db-common -uroot -p$$MYSQL_ROOT_PASSWORD -e '
+      CREATE DATABASE IF NOT EXISTS shop_1  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+      CREATE DATABASE IF NOT EXISTS shop_2  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+      CREATE DATABASE IF NOT EXISTS shop_3  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+      CREATE DATABASE IF NOT EXISTS shop_4  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+      CREATE DATABASE IF NOT EXISTS shop_5  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+      CREATE DATABASE IF NOT EXISTS shop_6  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+      CREATE DATABASE IF NOT EXISTS shop_7  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+      CREATE DATABASE IF NOT EXISTS shop_8  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+      CREATE DATABASE IF NOT EXISTS shop_9  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+      CREATE DATABASE IF NOT EXISTS shop_10 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+      '"
+    restart: "no"
+
+  # -------------------------
+  # SHOP 1 (install -> web)
+  # -------------------------
+  shop-1-install:
+    <<: *ps_install_common
+    container_name: multipresta-shop-1-install
+    environment:
+      <<: *db_env
+      DB_NAME: shop_1
+    volumes:
+      - shop1_data:/var/www/html
+    entrypoint: ["/bin/bash", "-lc"]
+    command: >
+      "php -d memory_limit=-1 /var/www/html/install/index_cli.php
+      --domain=DOMAIN:8081
+      --db_server=db-common:3306 --db_name=shop_1 --db_user=root --db_password=root_pass
+      --prefix=ps_
+      --firstname=Admin --lastname=One
+      --password=prestashop_password --email=admin1@prestashop.com
+      --language=fr --country=FR --all_languages=0
+      --newsletter=0 --send_email=0 --ssl=0"
+
+  shop-1:
+    <<: *ps_web_common
+    container_name: multipresta-shop-1
+    ports: ["8081:80"]
+    depends_on:
+      shop-1-install:
+        condition: service_completed_successfully
+    environment:
+      <<: *db_env
+      DB_NAME: shop_1
+    volumes:
+      - shop1_data:/var/www/html
+
+  # -------------------------
+  # SHOP 2
+  # -------------------------
+  shop-2-install:
+    <<: *ps_install_common
+    container_name: multipresta-shop-2-install
+    depends_on:
+      shop-1-install:
+        condition: service_completed_successfully
+    environment:
+      <<: *db_env
+      DB_NAME: shop_2
+    volumes:
+      - shop2_data:/var/www/html
+    entrypoint: ["/bin/bash", "-lc"]
+    command: >
+      "php -d memory_limit=-1 /var/www/html/install/index_cli.php
+      --domain=DOMAIN:8082
+      --db_server=db-common:3306 --db_name=shop_2 --db_user=root --db_password=root_pass
+      --prefix=ps_
+      --firstname=Admin --lastname=Two
+      --password=prestashop_password --email=admin2@prestashop.com
+      --language=fr --country=FR --all_languages=0
+      --newsletter=0 --send_email=0 --ssl=0"
+
+  shop-2:
+    <<: *ps_web_common
+    container_name: multipresta-shop-2
+    ports: ["8082:80"]
+    depends_on:
+      shop-2-install:
+        condition: service_completed_successfully
+    environment:
+      <<: *db_env
+      DB_NAME: shop_2
+    volumes:
+      - shop2_data:/var/www/html
+
+  # -------------------------
+  # SHOP 3
+  # -------------------------
+  shop-3-install:
+    <<: *ps_install_common
+    container_name: multipresta-shop-3-install
+    depends_on:
+      shop-2-install:
+        condition: service_completed_successfully
+    environment:
+      <<: *db_env
+      DB_NAME: shop_3
+    volumes:
+      - shop3_data:/var/www/html
+    entrypoint: ["/bin/bash", "-lc"]
+    command: >
+      "php -d memory_limit=-1 /var/www/html/install/index_cli.php
+      --domain=DOMAIN:8083
+      --db_server=db-common:3306 --db_name=shop_3 --db_user=root --db_password=root_pass
+      --prefix=ps_
+      --firstname=Admin --lastname=Three
+      --password=prestashop_password --email=admin3@prestashop.com
+      --language=fr --country=FR --all_languages=0
+      --newsletter=0 --send_email=0 --ssl=0"
+
+  shop-3:
+    <<: *ps_web_common
+    container_name: multipresta-shop-3
+    ports: ["8083:80"]
+    depends_on:
+      shop-3-install:
+        condition: service_completed_successfully
+    environment:
+      <<: *db_env
+      DB_NAME: shop_3
+    volumes:
+      - shop3_data:/var/www/html
+
+  # -------------------------
+  # SHOP 4
+  # -------------------------
+  shop-4-install:
+    <<: *ps_install_common
+    container_name: multipresta-shop-4-install
+    depends_on:
+      shop-3-install:
+        condition: service_completed_successfully
+    environment:
+      <<: *db_env
+      DB_NAME: shop_4
+    volumes:
+      - shop4_data:/var/www/html
+    entrypoint: ["/bin/bash", "-lc"]
+    command: >
+      "php -d memory_limit=-1 /var/www/html/install/index_cli.php
+      --domain=DOMAIN:8084
+      --db_server=db-common:3306 --db_name=shop_4 --db_user=root --db_password=root_pass
+      --prefix=ps_
+      --firstname=Admin --lastname=Four
+      --password=prestashop_password --email=admin4@prestashop.com
+      --language=fr --country=FR --all_languages=0
+      --newsletter=0 --send_email=0 --ssl=0"
+
+  shop-4:
+    <<: *ps_web_common
+    container_name: multipresta-shop-4
+    ports: ["8084:80"]
+    depends_on:
+      shop-4-install:
+        condition: service_completed_successfully
+    environment:
+      <<: *db_env
+      DB_NAME: shop_4
+    volumes:
+      - shop4_data:/var/www/html
+
+  # -------------------------
+  # SHOP 5
+  # -------------------------
+  shop-5-install:
+    <<: *ps_install_common
+    container_name: multipresta-shop-5-install
+    depends_on:
+      shop-4-install:
+        condition: service_completed_successfully
+    environment:
+      <<: *db_env
+      DB_NAME: shop_5
+    volumes:
+      - shop5_data:/var/www/html
+    entrypoint: ["/bin/bash", "-lc"]
+    command: >
+      "php -d memory_limit=-1 /var/www/html/install/index_cli.php
+      --domain=DOMAIN:8085
+      --db_server=db-common:3306 --db_name=shop_5 --db_user=root --db_password=root_pass
+      --prefix=ps_
+      --firstname=Admin --lastname=Five
+      --password=prestashop_password --email=admin5@prestashop.com
+      --language=fr --country=FR --all_languages=0
+      --newsletter=0 --send_email=0 --ssl=0"
+
+  shop-5:
+    <<: *ps_web_common
+    container_name: multipresta-shop-5
+    ports: ["8085:80"]
+    depends_on:
+      shop-5-install:
+        condition: service_completed_successfully
+    environment:
+      <<: *db_env
+      DB_NAME: shop_5
+    volumes:
+      - shop5_data:/var/www/html
+
+  # -------------------------
+  # SHOP 6
+  # -------------------------
+  shop-6-install:
+    <<: *ps_install_common
+    container_name: multipresta-shop-6-install
+    depends_on:
+      shop-5-install:
+        condition: service_completed_successfully
+    environment:
+      <<: *db_env
+      DB_NAME: shop_6
+    volumes:
+      - shop6_data:/var/www/html
+    entrypoint: ["/bin/bash", "-lc"]
+    command: >
+      "php -d memory_limit=-1 /var/www/html/install/index_cli.php
+      --domain=DOMAIN:8086
+      --db_server=db-common:3306 --db_name=shop_6 --db_user=root --db_password=root_pass
+      --prefix=ps_
+      --firstname=Admin --lastname=Six
+      --password=prestashop_password --email=admin6@prestashop.com
+      --language=fr --country=FR --all_languages=0
+      --newsletter=0 --send_email=0 --ssl=0"
+
+  shop-6:
+    <<: *ps_web_common
+    container_name: multipresta-shop-6
+    ports: ["8086:80"]
+    depends_on:
+      shop-6-install:
+        condition: service_completed_successfully
+    environment:
+      <<: *db_env
+      DB_NAME: shop_6
+    volumes:
+      - shop6_data:/var/www/html
+
+  # -------------------------
+  # SHOP 7
+  # -------------------------
+  shop-7-install:
+    <<: *ps_install_common
+    container_name: multipresta-shop-7-install
+    depends_on:
+      shop-6-install:
+        condition: service_completed_successfully
+    environment:
+      <<: *db_env
+      DB_NAME: shop_7
+    volumes:
+      - shop7_data:/var/www/html
+    entrypoint: ["/bin/bash", "-lc"]
+    command: >
+      "php -d memory_limit=-1 /var/www/html/install/index_cli.php
+      --domain=DOMAIN:8087
+      --db_server=db-common:3306 --db_name=shop_7 --db_user=root --db_password=root_pass
+      --prefix=ps_
+      --firstname=Admin --lastname=Seven
+      --password=prestashop_password --email=admin7@prestashop.com
+      --language=fr --country=FR --all_languages=0
+      --newsletter=0 --send_email=0 --ssl=0"
+
+  shop-7:
+    <<: *ps_web_common
+    container_name: multipresta-shop-7
+    ports: ["8087:80"]
+    depends_on:
+      shop-7-install:
+        condition: service_completed_successfully
+    environment:
+      <<: *db_env
+      DB_NAME: shop_7
+    volumes:
+      - shop7_data:/var/www/html
+
+  # -------------------------
+  # SHOP 8
+  # -------------------------
+  shop-8-install:
+    <<: *ps_install_common
+    container_name: multipresta-shop-8-install
+    depends_on:
+      shop-7-install:
+        condition: service_completed_successfully
+    environment:
+      <<: *db_env
+      DB_NAME: shop_8
+    volumes:
+      - shop8_data:/var/www/html
+    entrypoint: ["/bin/bash", "-lc"]
+    command: >
+      "php -d memory_limit=-1 /var/www/html/install/index_cli.php
+      --domain=DOMAIN:8088
+      --db_server=db-common:3306 --db_name=shop_8 --db_user=root --db_password=root_pass
+      --prefix=ps_
+      --firstname=Admin --lastname=Eight
+      --password=prestashop_password --email=admin8@prestashop.com
+      --language=fr --country=FR --all_languages=0
+      --newsletter=0 --send_email=0 --ssl=0"
+
+  shop-8:
+    <<: *ps_web_common
+    container_name: multipresta-shop-8
+    ports: ["8088:80"]
+    depends_on:
+      shop-8-install:
+        condition: service_completed_successfully
+    environment:
+      <<: *db_env
+      DB_NAME: shop_8
+    volumes:
+      - shop8_data:/var/www/html
+
+  # -------------------------
+  # SHOP 9
+  # -------------------------
+  shop-9-install:
+    <<: *ps_install_common
+    container_name: multipresta-shop-9-install
+    depends_on:
+      shop-8-install:
+        condition: service_completed_successfully
+    environment:
+      <<: *db_env
+      DB_NAME: shop_9
+    volumes:
+      - shop9_data:/var/www/html
+    entrypoint: ["/bin/bash", "-lc"]
+    command: >
+      "php -d memory_limit=-1 /var/www/html/install/index_cli.php
+      --domain=DOMAIN:8089
+      --db_server=db-common:3306 --db_name=shop_9 --db_user=root --db_password=root_pass
+      --prefix=ps_
+      --firstname=Admin --lastname=Nine
+      --password=prestashop_password --email=admin9@prestashop.com
+      --language=fr --country=FR --all_languages=0
+      --newsletter=0 --send_email=0 --ssl=0"
+
+  shop-9:
+    <<: *ps_web_common
+    container_name: multipresta-shop-9
+    ports: ["8089:80"]
+    depends_on:
+      shop-9-install:
+        condition: service_completed_successfully
+    environment:
+      <<: *db_env
+      DB_NAME: shop_9
+    volumes:
+      - shop9_data:/var/www/html
+
+  # -------------------------
+  # SHOP 10
+  # -------------------------
+  shop-10-install:
+    <<: *ps_install_common
+    container_name: multipresta-shop-10-install
+    depends_on:
+      shop-9-install:
+        condition: service_completed_successfully
+    environment:
+      <<: *db_env
+      DB_NAME: shop_10
+    volumes:
+      - shop10_data:/var/www/html
+    entrypoint: ["/bin/bash", "-lc"]
+    command: >
+      "php -d memory_limit=-1 /var/www/html/install/index_cli.php
+      --domain=DOMAIN:8090
+      --db_server=db-common:3306 --db_name=shop_10 --db_user=root --db_password=root_pass
+      --prefix=ps_
+      --firstname=Admin --lastname=Ten
+      --password=prestashop_password --email=admin10@prestashop.com
+      --language=fr --country=FR --all_languages=0
+      --newsletter=0 --send_email=0 --ssl=0"
+
+  shop-10:
+    <<: *ps_web_common
+    container_name: multipresta-shop-10
+    ports: ["8090:80"]
+    depends_on:
+      shop-10-install:
+        condition: service_completed_successfully
+    environment:
+      <<: *db_env
+      DB_NAME: shop_10
+    volumes:
+      - shop10_data:/var/www/html
+
+volumes:
+  db_data:
+  shop1_data:
+  shop2_data:
+  shop3_data:
+  shop4_data:
+  shop5_data:
+  shop6_data:
+  shop7_data:
+  shop8_data:
+  shop9_data:
+  shop10_data:
