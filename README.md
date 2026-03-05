@@ -8,7 +8,17 @@ while the other 9s are for the final and pseudo exams
 
 The docker compose file is written only with AI and only lightly check so it might be sensitive and unstable hence i'll check it up later
 
-Make sure to replace all "DOMAIN" with the actual remote reach domain (ctrl+f)
+Make sure to replace all "DOMAIN" with the actual remote reach DOMAIN (ctrl+f)
 
 The command bellow is used for getting a live 
 docker exec -it multipresta-db-common mariadb -uroot -proot_pass
+
+practical sh is a list of practical command like print out admins urls since there are no real email used
+
+Credentials :
+
+    default mail :
+        demo@prestashop.com
+
+    default password :
+        prestashop_demo
