@@ -1,24 +1,116 @@
-THIS REPO IS NOT REALLY USEFUL
+```markdown
+# Training Environment – PrestaShop & WordPress
 
-I decided to make a repo for this script since prestashop is at install
+> ⚠️ This repository is mainly for internal training purposes and may not be generally useful.
 
-The purpose of this repo is to create a training environment for a prestashop course
-first prestashop install is made for continuous training
-while the other 9s are for the final and pseudo exams
+## Overview
 
-The docker compose file is written only with AI and only lightly check so it might be sensitive and unstable hence i'll check it up later
+This repository contains a Docker-based environment designed to support a **PrestaShop training course**.
 
-Make sure to replace all "DOMAIN" with the actual remote reach DOMAIN (ctrl+f)
+- One **main PrestaShop instance** is used for **continuous training**.
+- The **other nine instances** are intended for **final and mock exams**.
 
-The command bellow is used for getting a live 
+The Docker Compose configuration was mostly generated using AI and has only been lightly reviewed.  
+It may therefore be **sensitive or unstable**, and improvements will be made later.
+
+---
+
+## Configuration
+
+Before starting the environment, **replace every occurrence of `DOMAIN`** with the actual domain used to access the server.
+
+You can quickly do this using search and replace:
+
+```
+
+Ctrl + F → DOMAIN
+
+````
+
+Replace it with your real remote access domain.
+
+---
+
+## Database Access
+
+To connect to the shared MariaDB database container:
+
+```bash
 docker exec -it multipresta-db-common mariadb -uroot -proot_pass
+````
 
-practical sh is a list of practical command like print out admins urls since there are no real email used
+---
 
-Credentials :
+## Practical Utilities
 
-    default mail :
-        demo@prestashop.com
+The script `practical.sh` contains useful commands for training purposes, such as:
 
-    default password :
-        prestashop_demo
+* Printing admin URLs
+* Managing instances
+
+Since no real email system is used in this environment, these commands help access the admin panels directly.
+
+---
+
+# PrestaShop Instances
+
+### Ports
+
+PrestaShop instances are exposed on the following port range:
+
+```
+8081 → 8090
+```
+
+### Default Credentials
+
+| Field    | Value                 |
+| -------- | --------------------- |
+| Email    | `demo@prestashop.com` |
+| Password | `prestashop_demo`     |
+
+---
+
+# WordPress Instances
+
+### Setup
+
+All WordPress sites must be **installed manually**.
+
+### Ports
+
+WordPress instances are exposed on:
+
+```
+8091 → 8100
+```
+
+### Standard Configuration (Post-Installation)
+
+Replace `(number)` with the site index (e.g., `1`, `2`, `3`, etc.).
+
+| Setting    | Value                       |
+| ---------- | --------------------------- |
+| Site Title | `site(number)`              |
+| Username   | `admin`                     |
+| Password   | `mdpsite(number)admin`      |
+| Email      | `no-reply@aj-formation.com` |
+
+Example for site 1:
+
+| Setting    | Value                       |
+| ---------- | --------------------------- |
+| Site Title | `site1`                     |
+| Username   | `admin`                     |
+| Password   | `mdpsite1admin`             |
+| Email      | `no-reply@aj-formation.com` |
+
+---
+
+## Notes
+
+* This environment is designed **specifically for training and exams**.
+* Security and stability **have not been fully hardened yet**.
+* Future revisions may improve reliability and configuration.
+
+```

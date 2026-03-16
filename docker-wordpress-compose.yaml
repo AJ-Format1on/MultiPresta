@@ -1,0 +1,181 @@
+version: "3.8"
+
+x-wp-env: &wp_env
+  WORDPRESS_DB_HOST: db-common:3306
+  WORDPRESS_DB_USER: root
+  WORDPRESS_DB_PASSWORD: root_pass
+
+services:
+  db-common:
+    image: mariadb:10.11
+    container_name: multiwp-db-common
+    environment:
+      MYSQL_ROOT_PASSWORD: root_pass
+    volumes:
+      - db_data:/var/lib/mysql
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        mkdir -p /docker-entrypoint-initdb.d
+        printf "CREATE DATABASE IF NOT EXISTS wp_1;\nCREATE DATABASE IF NOT EXISTS wp_2;\nCREATE DATABASE IF NOT EXISTS wp_3;\nCREATE DATABASE IF NOT EXISTS wp_4;\nCREATE DATABASE IF NOT EXISTS wp_5;\nCREATE DATABASE IF NOT EXISTS wp_6;\nCREATE DATABASE IF NOT EXISTS wp_7;\nCREATE DATABASE IF NOT EXISTS wp_8;\nCREATE DATABASE IF NOT EXISTS wp_9;\nCREATE DATABASE IF NOT EXISTS wp_10;\n" > /docker-entrypoint-initdb.d/init_wordpress.sql
+        exec /usr/local/bin/docker-entrypoint.sh mariadbd --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --init-file=/docker-entrypoint-initdb.d/init_wordpress.sql
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: always
+
+  wp-1:
+    image: wordpress:latest
+    container_name: wp-1
+    ports: ["8091:80"]
+    depends_on:
+      db-common:
+        condition: service_healthy
+    environment:
+      <<: *wp_env
+      WORDPRESS_DB_NAME: wp_1
+    volumes:
+      - wp1_data:/var/www/html
+    restart: unless-stopped
+
+  wp-2:
+    image: wordpress:latest
+    container_name: wp-2
+    ports: ["8092:80"]
+    depends_on:
+      db-common:
+        condition: service_healthy
+    environment:
+      <<: *wp_env
+      WORDPRESS_DB_NAME: wp_2
+    volumes:
+      - wp2_data:/var/www/html
+    restart: unless-stopped
+
+  wp-3:
+    image: wordpress:latest
+    container_name: wp-3
+    ports: ["8093:80"]
+    depends_on:
+      db-common:
+        condition: service_healthy
+    environment:
+      <<: *wp_env
+      WORDPRESS_DB_NAME: wp_3
+    volumes:
+      - wp3_data:/var/www/html
+    restart: unless-stopped
+
+  wp-4:
+    image: wordpress:latest
+    container_name: wp-4
+    ports: ["8094:80"]
+    depends_on:
+      db-common:
+        condition: service_healthy
+    environment:
+      <<: *wp_env
+      WORDPRESS_DB_NAME: wp_4
+    volumes:
+      - wp4_data:/var/www/html
+    restart: unless-stopped
+
+  wp-5:
+    image: wordpress:latest
+    container_name: wp-5
+    ports: ["8095:80"]
+    depends_on:
+      db-common:
+        condition: service_healthy
+    environment:
+      <<: *wp_env
+      WORDPRESS_DB_NAME: wp_5
+    volumes:
+      - wp5_data:/var/www/html
+    restart: unless-stopped
+
+  wp-6:
+    image: wordpress:latest
+    container_name: wp-6
+    ports: ["8096:80"]
+    depends_on:
+      db-common:
+        condition: service_healthy
+    environment:
+      <<: *wp_env
+      WORDPRESS_DB_NAME: wp_6
+    volumes:
+      - wp6_data:/var/www/html
+    restart: unless-stopped
+
+  wp-7:
+    image: wordpress:latest
+    container_name: wp-7
+    ports: ["8097:80"]
+    depends_on:
+      db-common:
+        condition: service_healthy
+    environment:
+      <<: *wp_env
+      WORDPRESS_DB_NAME: wp_7
+    volumes:
+      - wp7_data:/var/www/html
+    restart: unless-stopped
+
+  wp-8:
+    image: wordpress:latest
+    container_name: wp-8
+    ports: ["8098:80"]
+    depends_on:
+      db-common:
+        condition: service_healthy
+    environment:
+      <<: *wp_env
+      WORDPRESS_DB_NAME: wp_8
+    volumes:
+      - wp8_data:/var/www/html
+    restart: unless-stopped
+
+  wp-9:
+    image: wordpress:latest
+    container_name: wp-9
+    ports: ["8099:80"]
+    depends_on:
+      db-common:
+        condition: service_healthy
+    environment:
+      <<: *wp_env
+      WORDPRESS_DB_NAME: wp_9
+    volumes:
+      - wp9_data:/var/www/html
+    restart: unless-stopped
+
+  wp-10:
+    image: wordpress:latest
+    container_name: wp-10
+    ports: ["8100:80"]
+    depends_on:
+      db-common:
+        condition: service_healthy
+    environment:
+      <<: *wp_env
+      WORDPRESS_DB_NAME: wp_10
+    volumes:
+      - wp10_data:/var/www/html
+    restart: unless-stopped
+
+volumes:
+  db_data:
+  wp1_data:
+  wp2_data:
+  wp3_data:
+  wp4_data:
+  wp5_data:
+  wp6_data:
+  wp7_data:
+  wp8_data:
+  wp9_data:
+  wp10_data:
