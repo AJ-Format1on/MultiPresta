@@ -1,0 +1,299 @@
+BTS NDRC – ÉPREUVE E5
+Relation client à distance et digitalisation
+Deuxième partie – Épreuve ponctuelle pratique
+
+Durée : 40 minutes
+
+CONSIGNES GÉNÉRALES
+
+Cette épreuve vise à évaluer votre capacité à :
+
+utiliser un outil de relation client digital
+
+créer et organiser des contenus
+
+améliorer la visibilité d’une entreprise en ligne
+
+gérer une interaction avec un client
+
+Le site internet et les accès nécessaires vous sont fournis par l’examinateur.
+
+Toutes les actions demandées doivent être réalisées directement dans l’interface du CMS.
+
+Les images nécessaires sont fournies dans les documents de l’épreuve et peuvent être importées depuis votre ordinateur.
+
+SUJET WORDPRESS N°1
+CONTEXTE COMMERCIAL
+L’ENTREPRISE : ECO-MOBILITÉ
+
+L’entreprise Eco-Mobilité est spécialisée dans la promotion des transports écologiques (vélo électrique, trottinette et mobilité douce).
+
+Elle dispose d’un blog WordPress destiné à :
+
+informer les utilisateurs
+
+améliorer la visibilité de l’entreprise
+
+générer du trafic vers sa boutique en ligne.
+
+La direction souhaite améliorer la visibilité du blog et publier de nouveaux contenus.
+
+QUESTIONS
+Q1 – Identité du site
+
+La direction souhaite moderniser l’identité du blog.
+
+Vous devez :
+
+Modifier le titre du site :
+
+Eco-Mobilité – Le blog de la mobilité durable
+
+Modifier le slogan :
+
+Conseils et actualités sur les transports écologiques
+
+Ajouter une icône de site (favicon) en utilisant l’image fournie dans les documents de l’épreuve.
+
+Q2 – Création d’un article
+
+Créez un article intitulé :
+
+Pourquoi choisir un vélo électrique pour ses déplacements urbains ?
+
+L’article doit :
+
+contenir un titre et un texte structuré
+
+comporter au moins deux sous-titres
+
+intégrer une image fournie dans les documents
+
+contenir un bouton menant vers la boutique
+
+Q3 – Organisation du contenu
+
+Créez une catégorie :
+
+Mobilité urbaine
+
+Associez l’article créé à cette catégorie.
+
+Q4 – Référencement naturel
+
+Optimisez le référencement de l’article.
+
+Mot clé principal :
+
+vélo électrique urbain
+
+Complétez :
+
+la méta-description
+
+les étiquettes
+
+Q5 – Interaction client
+
+Un internaute laisse le commentaire suivant sur l’article :
+
+« Je réfléchis à acheter un vélo électrique mais je ne sais pas si c’est adapté pour les trajets quotidiens en ville. »
+
+Depuis l’interface WordPress, rédigez et publiez une réponse professionnelle à ce commentaire.
+
+SUJET WORDPRESS N°2
+CONTEXTE COMMERCIAL
+L’ENTREPRISE : FITNESS FACTORY
+
+Fitness Factory est une salle de sport située à Bordeaux.
+
+Elle utilise un site WordPress pour :
+
+présenter ses activités
+
+communiquer avec ses clients
+
+promouvoir ses événements.
+
+La direction souhaite promouvoir une journée portes ouvertes.
+
+QUESTIONS
+Q1 – Identité du site
+
+Modifiez les informations suivantes :
+
+Titre du site :
+
+Fitness Factory – Votre salle de sport à Bordeaux
+
+Slogan :
+
+Forme, santé et bien-être pour tous
+
+Ajoutez le logo fourni dans les documents du sujet comme icône du site.
+
+Q2 – Création d’un article événement
+
+Créez un article intitulé :
+
+Journée portes ouvertes Fitness Factory
+
+L’article doit contenir :
+
+une présentation de l’événement
+
+une image fournie dans les documents
+
+un bouton d’inscription
+
+Q3 – Catégorisation
+
+Créez la catégorie :
+
+Événements
+
+Associez l’article à cette catégorie.
+
+Q4 – Visibilité
+
+Ajoutez dans l’article :
+
+une vidéo YouTube sur le fitness
+
+un lien vers la page d’inscription
+
+Q5 – SEO
+
+Optimisez le référencement de l’article.
+
+Mot clé principal :
+
+salle de sport Bordeaux
+
+Complétez la méta-description.
+
+SUJET PRESTASHOP N°1
+CONTEXTE COMMERCIAL
+L’ENTREPRISE : TECH STORE
+
+Tech Store est un site e-commerce spécialisé dans les accessoires informatiques.
+
+Afin de dynamiser les ventes, l’entreprise souhaite améliorer son catalogue et mettre en avant un nouveau produit.
+
+Le site fonctionne sous PrestaShop.
+
+QUESTIONS
+Q1 – Organisation de la boutique
+
+Afin d’améliorer la navigation :
+
+Créez une catégorie :
+
+Accessoires télétravail
+
+Q2 – Création d’un produit
+
+Créez le produit suivant :
+
+Nom :
+
+Support ordinateur portable ergonomique
+
+Description :
+
+Support réglable permettant d’améliorer la posture lors du travail sur ordinateur.
+
+Caractéristiques :
+
+aluminium
+
+réglable
+
+compatible ordinateurs 11 à 17 pouces
+
+Prix :
+
+29,90 € TTC
+
+Ajoutez l’image du produit fournie dans les documents du sujet.
+
+Q3 – Association produit
+
+Associez ce produit à la catégorie :
+
+Accessoires télétravail
+
+Q4 – Promotion
+
+Créez une promotion de lancement de –10 % valable pendant 15 jours.
+
+Q5 – Relation client
+
+Un client envoie le message suivant via le service client :
+
+« Je souhaite savoir si ce support est compatible avec un ordinateur portable de 15 pouces. »
+
+Depuis l’interface service client PrestaShop, rédigez une réponse professionnelle.
+
+SUJET PRESTASHOP N°2
+CONTEXTE COMMERCIAL
+L’ENTREPRISE : GREEN GARDEN
+
+Green Garden est une boutique en ligne spécialisée dans les produits de jardinage écologique.
+
+L’entreprise souhaite améliorer la visibilité de ses produits et mettre en place des promotions.
+
+QUESTIONS
+Q1 – Création d’une marque
+
+Créez la marque suivante :
+
+EcoGarden
+
+Q2 – Création d’un produit
+
+Nom :
+
+Kit jardinage urbain
+
+Description :
+
+Kit complet permettant de cultiver des plantes aromatiques sur un balcon ou en intérieur.
+
+Contenu :
+
+3 pots biodégradables
+
+graines de basilic
+
+graines de menthe
+
+terreau naturel
+
+Prix :
+
+19,90 € TTC
+
+Ajoutez l’image du produit fournie dans les documents du sujet.
+
+Associez le produit à la marque EcoGarden.
+
+Q3 – Catégorie
+
+Créez une catégorie :
+
+Jardinage urbain
+
+Associez le produit à cette catégorie.
+
+Q4 – Promotion catalogue
+
+Créez une promotion de –20 % sur ce produit pendant 1 mois.
+
+Q5 – Service client
+
+Un client laisse le message suivant :
+
+« Je débute en jardinage. Ce kit est-il adapté pour un balcon ? »
+
+Depuis l’interface service client PrestaShop, rédigez une réponse professionnelle au client.
