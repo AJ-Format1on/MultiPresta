@@ -13,7 +13,6 @@ services:
       MYSQL_ROOT_PASSWORD: root_pass
     volumes:
       - db_data:/var/lib/mysql
-    # We use a heredoc to create a proper multi-line SQL file
     entrypoint: 
       - /bin/sh
       - -c
